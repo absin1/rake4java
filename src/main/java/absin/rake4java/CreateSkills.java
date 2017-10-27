@@ -28,16 +28,30 @@ public class CreateSkills {
 			FileReader in = new FileReader(iterable_element);
 			BufferedReader bufferedReader = new BufferedReader(in);
 			String line = "";
-			while((line = bufferedReader.readLine())!=null){
-				text+=line+"\n";
+			while ((line = bufferedReader.readLine()) != null) {
+				text += line + "\n";
 			}
 			System.out.println(text);
-			Document doc = new Document(text);
-	        RakeAnalyzer rake = new RakeAnalyzer();
-	        rake.loadDocument(doc);
-	        rake.runWithoutOffset();
-	        System.out.println(doc.termListToString());
+			//normalRAKE(text);
+			offsetStemmedRAKE(text);
 		}
 
+	}
+
+	private void offsetStemmedRAKE(String text) throws URISyntaxException {
+		Document doc = new Document(text);
+		RakeAnalyzer rake = new RakeAnalyzer();
+		rake.loadDocument(doc);
+		rake.run();
+		System.out.println(doc.termMapToString());
+
+	}
+
+	private void normalRAKE(String text) throws URISyntaxException {
+		Document doc = new Document(text);
+		RakeAnalyzer rake = new RakeAnalyzer();
+		rake.loadDocument(doc);
+		rake.runWithoutOffset();
+		System.out.println(doc.termListToString());
 	}
 }
